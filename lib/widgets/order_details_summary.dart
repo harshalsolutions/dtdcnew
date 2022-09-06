@@ -200,39 +200,15 @@ class _OrderDetailsSummaryBoxState extends State<OrderDetailsSummaryBox> {
                       Container(
                           alignment: Alignment.center,
                           width: 70.0,
-                          child: FutureBuilder<Map<String, dynamic>>(
-                              future: fetchPickupCharges(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<Map<String, dynamic>>
-                                      snapshot) {
-                                if (snapshot.hasData) {
-                                  var pickupPrice =
-                                      snapshot.data!["pickupPrice"];
-                                  return FutureBuilder<Map<String, dynamic>>(
-                                      future: fetchPickupCharges(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<Map<String, dynamic>>
-                                              snapshot1) {
-                                        if (snapshot1.hasData) {
-                                          var totalPrice =
-                                              snapshot1.data!["pickupPrice"] +
-                                                  pickupPrice +
-                                                  travelPrice;
-                                          return Text(
-                                            totalPrice.toString(),
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontFamily: 'Prompt SemiBold',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: screenHeight * 0.0158,
-                                            ),
-                                          );
-                                        }
-                                        return const Text("Error  prices");
-                                      });
-                                }
-                                return const Text("Error tching prices");
-                              })),
+                          child: Text(
+                            widget.packageValue.toString(),
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: 'Prompt SemiBold',
+                              fontWeight: FontWeight.w600,
+                              fontSize: screenHeight * 0.0158,
+                            ),
+                          )),
                       SizedBox(
                         height: screenHeight * 0.0442,
                       ),

@@ -46,16 +46,51 @@ class CourierRatesScreen extends StatefulWidget {
   // ignore: no_logic_in_create_state
   _CourierRatesScreenState createState() =>
       // ignore: no_logic_in_create_state
-      _CourierRatesScreenState(pickupcity, deliverycity);
+      _CourierRatesScreenState(pickupcity, deliverycity, packageWeight);
 }
 
 class _CourierRatesScreenState extends State<CourierRatesScreen> {
-  _CourierRatesScreenState(this.pickupcity, this.deliverycity);
+  _CourierRatesScreenState(
+      this.pickupcity, this.deliverycity, this.packageWeight);
+  final double packageWeight;
   final String pickupcity;
   final String deliverycity;
   late VendorProvider vendorProvider;
-  var pickupPrice = '';
-  var deliveryprcie = 0;
+
+  Future<Map<String, dynamic>> fetchPickupCharges() async {
+    Map<String, dynamic> pickupPrices = {};
+    await FirebaseFirestore.instance
+        .collection("Prices")
+        .doc(widget.pickupcity.toLowerCase())
+        .collection("charges")
+        .where("Weight", isGreaterThanOrEqualTo: packageWeight)
+        .orderBy("Weight")
+        .limit(1)
+        .get()
+        .then((value) {
+      pickupPrices = value.docs.first.data();
+    });
+
+    return pickupPrices;
+  }
+
+  Future<Map<String, dynamic>> fetchDeliveryCharges() async {
+    Map<String, dynamic> pickupPrices = {};
+
+    await FirebaseFirestore.instance
+        .collection("Prices")
+        .doc(widget.deliverycity.toLowerCase())
+        .collection("charges")
+        .where("Weight", isGreaterThanOrEqualTo: packageWeight)
+        .orderBy("Weight")
+        .limit(1)
+        .get()
+        .then((value) {
+      pickupPrices = value.docs.first.data();
+    });
+
+    return pickupPrices;
+  }
 
   @override
   void initState() {
@@ -133,6 +168,115 @@ class _CourierRatesScreenState extends State<CourierRatesScreen> {
                       height: screenHeight * 0.0236,
                     ),
                     ContentCards(
+                      childWidget: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: <Widget>[
+                            Column(children: <Widget>[
+                              const Text("Normal Delivery"),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: screenHeight * 0.05)),
+                              FutureBuilder<Map<String, dynamic>>(
+                                  future: fetchPickupCharges(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<Map<String, dynamic>>
+                                          snapshot) {
+                                    if (snapshot.hasData) {
+                                      var price = snapshot.data!["litePrice"]
+                                          .toString();
+                                      var time =
+                                          snapshot.data!["liteDeliveryTime"];
+                                      if (snapshot.data!["Weight"] > 1) {
+                                        price = (widget.packageWeight *
+                                                snapshot.data!["litePrice"])
+                                            .toString();
+                                      }
+                                      return Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Price:  Rs " + price,
+                                            style: TextStyle(
+                                              fontFamily: 'PT Sans',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: screenHeight * 0.018,
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: screenHeight * 0.05)),
+                                          Text(
+                                            "Delivery Time: " + time,
+                                            style: TextStyle(
+                                              fontFamily: 'PT Sans',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: screenHeight * 0.018,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return const Text("Error fetching prices");
+                                  }),
+                            ]),
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(right: screenWidth * 0.13)),
+                            Column(children: <Widget>[
+                              const Text("Premium Delivery"),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: screenHeight * 0.05)),
+                              FutureBuilder<Map<String, dynamic>>(
+                                  future: fetchDeliveryCharges(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<Map<String, dynamic>>
+                                          snapshot) {
+                                    if (snapshot.hasData) {
+                                      var price = snapshot.data!["premiumPrice"]
+                                          .toString();
+                                      var time =
+                                          snapshot.data!["premiumDeliveryTime"];
+                                      if (snapshot.data!["Weight"] > 1) {
+                                        price = (widget.packageWeight *
+                                                snapshot.data!["premiumPrice"])
+                                            .toString();
+                                      }
+                                      return Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Price: Rs " + price,
+                                            style: TextStyle(
+                                              fontFamily: 'PT Sans',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: screenHeight * 0.018,
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: screenHeight * 0.05)),
+                                          Text(
+                                            "Delivery Time: " + time,
+                                            style: TextStyle(
+                                              fontFamily: 'PT Sans',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: screenHeight * 0.018,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return const Text("Error fetching prices");
+                                  }),
+                            ])
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenHeight * 0.0236,
+                    ),
+                    ContentCards(
                         childWidget: Column(
                       children: [
                         Row(
@@ -180,7 +324,7 @@ class _CourierRatesScreenState extends State<CourierRatesScreen> {
                           height: screenHeight * 0.49,
                           margin: const EdgeInsets.only(top: 11),
                           child: ListView.builder(
-                              itemCount: vendorProvider.vendorList.length,
+                              itemCount: 2,
                               itemBuilder: (context, index) {
                                 return Container(
                                   height: screenHeight * 0.25,

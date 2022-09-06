@@ -1,0 +1,74 @@
+[{
+    "Pin Code": 110001,
+    "District": "DELHI",
+    "State": "DELHI",
+    "charges": [
+      {
+        "weight": 0.25,
+        "litePrice": 110,
+        "liteDelivery": "2-3 days",
+        "pickupPrice": 380
+      },
+      {
+        "weight": 0.5,
+        "litePrice": 110,
+        "liteDelivery": "2-3 days",
+        "pickupPrice": 380
+      },
+      {
+        "weight": 1,
+        "litePrice": 110,
+        "liteDelivery": "2-3 days",
+        "pickupPrice": 380
+      },
+      {
+        "weight": 10,
+        "litePrice": 110,
+        "liteDelivery": "2-3 days",
+        "pickupPrice": 380
+      },
+      {
+        "weight": 20,
+        "litePrice": 110,
+        "liteDelivery": "2-3 days",
+        "pickupPrice": 380
+      }
+    ]
+  },
+{
+  "Pin Code": 110002,
+  "District": "DELHI",
+  "State": "DELHI",
+  "charges": [
+    {
+      "weight": 0.25,
+      "litePrice": 110,
+      "liteDelivery": "2-3 days",
+      "pickupPrice": 380
+    },
+    {
+      "weight": 0.5,
+      "litePrice": 110,
+      "liteDelivery": "2-3 days",
+      "pickupPrice": 380
+    },
+    {
+      "weight": 1,
+      "litePrice": 110,
+      "liteDelivery": "2-3 days",
+      "pickupPrice": 380
+    },
+    {
+      "weight": 10,
+      "litePrice": 110,
+      "liteDelivery": "2-3 days",
+      "pickupPrice": 380
+    },
+    {
+      "weight": 20,
+      "litePrice": 110,
+      "liteDelivery": "2-3 days",
+      "pickupPrice": 380
+    }
+  ]
+}]

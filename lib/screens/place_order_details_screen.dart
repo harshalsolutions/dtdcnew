@@ -41,36 +41,6 @@ class _PlaceOrderDetailsState extends State<PlaceOrderDetails> {
   Domains selectedDomain = Domains.domestic;
   CollectionReference prices = FirebaseFirestore.instance.collection("Prices");
 
-//   //pickup city info
-//   Future<void> pickupCityfetchData(int pincode) async {
-//     var apiUrl = 'https://api.postalpincode.in/pincode/$pincode';
-
-//     final response = await http.get(Uri.parse(apiUrl));
-//     final data = json.decode(response.body);
-
-//     status = (data[0]["Status"]);
-//     if (status == "Success") {
-//       setState(() {
-//         pickupcityname = data[0]["PostOffice"][0]["Region"];
-//       });
-//     }
-//   }
-
-// //delivery city info
-//   Future<void> deliveryCityfetchData(int pincode) async {
-//     var apiUrl = 'https://api.postalpincode.in/pincode/$pincode';
-
-//     final response = await http.get(Uri.parse(apiUrl));
-//     final data = json.decode(response.body);
-
-//     status = (data[0]["Status"]);
-//     if (status == "Success") {
-//       setState(() {
-//         deliverycityname = data[0]["PostOffice"][0]["Region"];
-//       });
-//     }
-//   }
-
   //google api
   Future<void> fetchPickupCitywithGoogle(int pincode) async {
     var apiUrl =
@@ -300,14 +270,15 @@ class _PlaceOrderDetailsState extends State<PlaceOrderDetails> {
                                 InputBox3(
                                   boxWidth: screenWidth * 0.341,
                                   hintText: 'Weight',
+                                  suffixText: "Kg",
                                   weightController: pWeightController,
                                 ),
-                                const DropDownSelector(
-                                  listItems: ["Kg", "g"],
-                                  selectedItem: "g",
-                                  width: 40,
-                                  height: 25,
-                                ),
+                                // const DropDownSelector(
+                                //   listItems: ["Kg", "g"],
+                                //   selectedItem: "Kg",
+                                //   width: 40,
+                                //   height: 25,
+                                // ),
                               ],
                             ),
                             SizedBox(
@@ -400,10 +371,6 @@ class _PlaceOrderDetailsState extends State<PlaceOrderDetails> {
                       ),
                       PrimaryButton(
                           onPress: () {
-                            // pickupCityfetchData(
-                            //     int.parse(pickPinController.text.trim()));
-                            // deliveryCityfetchData(
-                            //     int.parse(deliveryPinController.text.trim()));
                             fetchPickupCitywithGoogle(
                                 int.parse(pickPinController.text.trim()));
                             fetchDeliveryCitywithGoogle(

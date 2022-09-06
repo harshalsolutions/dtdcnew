@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pick_my_parcel_customer/constants/constants.dart';
 
-import '../widgets/dropdown_selector.dart';
-
 class InputBox3 extends StatelessWidget {
   final String hintText;
   final double boxWidth;
-  // final String suffixText;
+  final String suffixText;
   final TextEditingController weightController;
   const InputBox3(
       {required this.boxWidth,
       required this.hintText,
-      // required this.suffixText,
+      required this.suffixText,
       required this.weightController});
   @override
   Widget build(BuildContext context) {
@@ -39,6 +37,14 @@ class InputBox3 extends StatelessWidget {
           decoration: InputDecoration(
               suffixIcon: Padding(
                 padding: EdgeInsets.only(top: screenHeight * 0.0105),
+                child: Text(
+                  suffixText,
+                  style: TextStyle(
+                      fontFamily: 'PT Sans',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.0225,
+                      color: primaryColor1),
+                ),
               ),
               hintText: hintText,
               hintStyle: TextStyle(
