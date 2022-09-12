@@ -211,89 +211,93 @@ class _OrderStatusCardState extends State<OrderStatusCard> {
           SizedBox(
             width: screenWidth * 0.046,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Placed",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenHeight * 0.018),
-              ),
-              Text(
-                widget.statusLocation1,
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    fontSize: screenHeight * 0.0135,
-                    color: const Color(0xffAFAFAF)),
-              ),
-              SizedBox(
-                height: screenHeight * 0.0827,
-              ),
-              Text(
-                "Accepted",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenHeight * 0.018),
-              ),
-              SizedBox(
-                height: screenHeight * 0.0827,
-              ),
-              Text(
-                "Picked Up",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenHeight * 0.018),
-              ),
-              Text(
-                widget.statusLocation2,
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    fontSize: screenHeight * 0.0135,
-                    color: const Color(0xffAFAFAF)),
-              ),
-              SizedBox(
-                height: screenHeight * 0.0827,
-              ),
-              Text(
-                "Dispatched",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenHeight * 0.018),
-              ),
-              Text(
-                "Pune",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    fontSize: screenHeight * 0.0135,
-                    color: const Color(0xffAFAFAF)),
-              ),
-              SizedBox(
-                height: screenHeight * 0.0827,
-              ),
-              Text(
-                "Delivered",
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w700,
-                    fontSize: screenHeight * 0.018),
-              ),
-              Text(
-                widget.statusLocation4,
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    fontSize: screenHeight * 0.0135,
-                    color: const Color(0xffAFAFAF)),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Placed",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.018),
+                ),
+                Text(
+                  widget.statusLocation1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenHeight * 0.0135,
+                      color: const Color(0xffAFAFAF)),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.0827,
+                ),
+                Text(
+                  "Accepted",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.018),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.0827,
+                ),
+                Text(
+                  "Picked Up",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.018),
+                ),
+                Text(
+                  widget.statusLocation2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenHeight * 0.0135,
+                      color: const Color(0xffAFAFAF)),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.0827,
+                ),
+                Text(
+                  "Dispatched",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.018),
+                ),
+                Text(
+                  "Pune",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenHeight * 0.0135,
+                      color: const Color(0xffAFAFAF)),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.0827,
+                ),
+                Text(
+                  "Delivered",
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenHeight * 0.018),
+                ),
+                Text(
+                  widget.statusLocation4,
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenHeight * 0.0135,
+                      color: const Color(0xffAFAFAF)),
+                ),
+              ],
+            ),
           ),
         ],
       ),

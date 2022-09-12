@@ -24,7 +24,8 @@ class PrimaryOrderTrackCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        openIndividualTrackScreen(context, trackingID, pickupCity, deliveryCity, pickupPin, deliveryPin);
+        openIndividualTrackScreen(context, trackingID, pickupCity, deliveryCity,
+            pickupPin, deliveryPin);
       },
       child: ContentCards(
         childWidget: Column(children: [
@@ -58,20 +59,29 @@ class PrimaryOrderTrackCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      pickupCity,
-                      style: TextStyle(
-                        fontFamily: 'Archivo',
-                        fontWeight: FontWeight.w400,
-                        fontSize: screenHeight * 0.018,
+                    Expanded(
+                      child: Text(
+                        pickupCity.trim(),
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Archivo',
+                          fontWeight: FontWeight.w400,
+                          fontSize: screenHeight * 0.018,
+                        ),
                       ),
                     ),
-                    Text(
-                      deliveryCity,
-                      style: TextStyle(
-                        fontFamily: 'Archivo',
-                        fontWeight: FontWeight.w400,
-                        fontSize: screenHeight * 0.018,
+                    SizedBox(
+                      width: screenWidth * 0.5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        deliveryCity.trim(),
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Archivo',
+                          fontWeight: FontWeight.w400,
+                          fontSize: screenHeight * 0.018,
+                        ),
                       ),
                     ),
                   ],
@@ -161,15 +171,18 @@ class PrimaryOrderTrackCard extends StatelessWidget {
   }
 }
 
-openIndividualTrackScreen(context, trackingID, pickupCity, deliveryCity, pickupPin, deliveryPin) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (context) => TrackIndividualCourierScreen(
-      trackingID: trackingID,
-      deliveryPin: deliveryPin,
-      pickupCity: pickupCity,
-      deliveryCity: deliveryCity,
-      pickupPin: pickupPin,
+openIndividualTrackScreen(
+    context, trackingID, pickupCity, deliveryCity, pickupPin, deliveryPin) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => TrackIndividualCourierScreen(
+        trackingID: trackingID,
+        deliveryPin: deliveryPin,
+        pickupCity: pickupCity,
+        deliveryCity: deliveryCity,
+        pickupPin: pickupPin,
+      ),
     ),
-  ),
   );
 }

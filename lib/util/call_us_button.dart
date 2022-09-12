@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/constants.dart';
 
@@ -78,11 +79,14 @@ class CallUsButton extends StatelessWidget {
                     color: Color.fromRGBO(0, 0, 0, 0.04),
                   ),
                 ]),
-            child: const Center(
-              child: Icon(
-                Icons.call,
-                size: 28.0,
-                color: Colors.white,
+            child: Center(
+              child: IconButton(
+                onPressed: () async => {launch('tel:$contactUsNumber')},
+                icon: const Icon(
+                  Icons.call,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
               ),
             )),
       ],

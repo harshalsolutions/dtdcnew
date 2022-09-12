@@ -324,7 +324,7 @@ class _CourierRatesScreenState extends State<CourierRatesScreen> {
                           height: screenHeight * 0.49,
                           margin: const EdgeInsets.only(top: 11),
                           child: ListView.builder(
-                              itemCount: 2,
+                              itemCount: vendorProvider.vendorList.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   height: screenHeight * 0.25,
