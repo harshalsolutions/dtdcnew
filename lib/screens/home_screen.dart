@@ -338,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(
                         top: screenHeight * 0.0225, left: screenWidth * 0.079),
                     child: Text(
-                      'Current Orders (${orderProvider.waitingOrderList.length})',
+                      'Waiting Orders (${orderProvider.waitingOrderList.length})',
                       style: TextStyle(
                           fontFamily: 'Archivo',
                           fontWeight: FontWeight.w700,
@@ -371,22 +371,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   top: screenHeight * 0.067,
                   left: 0.0,
                   right: 0.0,
-                  child:  SizedBox(
-                    height: screenHeight*0.222,
+                  child: SizedBox(
+                    height: screenHeight * 0.222,
                     child: ListView.builder(
-                      itemCount: orderProvider.waitingOrderList.length,
-                      itemBuilder: (context,index) {
-                        return Container(
-                          margin: const EdgeInsets.only(top: 7),
-                          child: PrimaryOrderTrackCard(
-                              trackingID: orderProvider.waitingOrderList[index].trackingId,
-                              pickupCity: orderProvider.waitingOrderList[index].pickupAdrs,
-                              deliveryCity: orderProvider.waitingOrderList[index].deliveryAdrs,
-                              pickupPin: orderProvider.waitingOrderList[index].pickupPin,
-                              deliveryPin: orderProvider.waitingOrderList[index].deliveryPin),
-                        );
-                      }
-                    ),
+                        itemCount: orderProvider.waitingOrderList.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 7),
+                            child: PrimaryOrderTrackCard(
+                                trackingID: orderProvider
+                                    .waitingOrderList[index].trackingId,
+                                pickupCity: orderProvider
+                                    .waitingOrderList[index].pickupAdrs,
+                                deliveryCity: orderProvider
+                                    .waitingOrderList[index].deliveryAdrs,
+                                pickupPin: orderProvider
+                                    .waitingOrderList[index].pickupPin,
+                                deliveryPin: orderProvider
+                                    .waitingOrderList[index].deliveryPin),
+                          );
+                        }),
                   ),
                 ),
               ])

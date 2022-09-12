@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:pick_my_parcel_customer/util/call_us_button.dart';
 import '../constants/constants.dart';
 import '../widgets/app_bar.dart';
@@ -12,7 +15,14 @@ class TrackIndividualCourierScreen extends StatefulWidget {
   final String deliveryCity;
   final String pickupPin;
   final String deliveryPin;
-  const TrackIndividualCourierScreen({Key? key, required this.trackingID, required this.pickupCity, required this.deliveryCity, required this.pickupPin, required this.deliveryPin}) : super(key: key);
+  const TrackIndividualCourierScreen(
+      {Key? key,
+      required this.trackingID,
+      required this.pickupCity,
+      required this.deliveryCity,
+      required this.pickupPin,
+      required this.deliveryPin})
+      : super(key: key);
 
   @override
   State<TrackIndividualCourierScreen> createState() =>
@@ -21,18 +31,45 @@ class TrackIndividualCourierScreen extends StatefulWidget {
 
 class _TrackIndividualCourierScreenState
     extends State<TrackIndividualCourierScreen> {
+  String trackstatus = "Placed";
+  getStatus() {
+    FirebaseFirestore.instance
+        .collection("Orders")
+        .doc(widget.trackingID)
+        .get()
+        .then((value) {
+      var status = value.data()!['orderStatus'];
+      setState(() {
+        if (status == 'waiting') {
+          trackstatus = "Placed";
+        } else if (status == 'accepted') {
+          trackstatus = "Accepted";
+        } else if (status == "dispatched") {
+          trackstatus = "Dispatched";
+        } else if (status == 'complete') {
+          trackstatus = "Delivered";
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    String trackStatus = 'Dispatched';
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:
-      CustomAppBar(
+      appBar: CustomAppBar(
         screenHeight: screenHeight,
         screenWidth: screenWidth,
-        title: 'Track Your Courier',),
+        title: 'Track Your Courier',
+      ),
       bottomNavigationBar:
           Container(color: primaryColor2, child: const CustomBottomBar()),
       body: SafeArea(
@@ -90,7 +127,7 @@ class _TrackIndividualCourierScreenState
                               ),
                             ),
                             Text(
-                              trackStatus,
+                              trackstatus,
                               style: TextStyle(
                                 fontFamily: 'Archivo',
                                 fontWeight: FontWeight.w700,
@@ -103,7 +140,8 @@ class _TrackIndividualCourierScreenState
                       SizedBox(
                         height: screenHeight * 0.0225,
                       ),
-                      const OrderStatusCard(
+                      OrderStatusCard(
+                          trackingID: widget.trackingID,
                           date1: '07 May, 2022',
                           time1: '10:07 AM',
                           date2: '08 May, 2022',
@@ -113,13 +151,13 @@ class _TrackIndividualCourierScreenState
                           date4: '11 May, 2022',
                           time4: '',
                           statusTitle1: 'Pick-Up',
-                          statusLocation1: 'New Delhi, Delhi',
+                          statusLocation1: widget.pickupCity,
                           statusTitle2: 'Dispatched',
-                          statusLocation2: 'New Delhi, Delhi',
+                          statusLocation2: widget.pickupCity,
                           statusTitle3: 'Arrived to Pune',
                           statusLocation3: 'Bangalore, Karnataka',
                           statusTitle4: 'Delivered',
-                          statusLocation4: 'Bangalore, Karnataka'),
+                          statusLocation4: widget.deliveryCity),
                       SizedBox(
                         height: screenHeight * 0.0338,
                       ),

@@ -19,7 +19,6 @@ class OrderCompletedScreen extends StatefulWidget {
 }
 
 class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
-
   late OrderProvider orderProvider;
 
   @override
@@ -35,7 +34,6 @@ class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     orderProvider = Provider.of(context);
 
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 0.97),
       appBar: CustomAppBar(
@@ -44,7 +42,7 @@ class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
         title: 'Your Completed Order',
       ),
       bottomNavigationBar:
-      Container(color: primaryColor2, child: const CustomBottomBar()),
+          Container(color: primaryColor2, child: const CustomBottomBar()),
       body: SafeArea(
         child: ListView(
           physics: const ClampingScrollPhysics(),
@@ -73,7 +71,7 @@ class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
                   padding: EdgeInsets.only(
                       top: screenHeight * 0.0225, left: screenWidth * 0.079),
                   child: Text(
-                    'Current Orders (1)',
+                    'Completed Orders (${orderProvider.completedOrderList.length})',
                     style: TextStyle(
                         fontFamily: 'Archivo',
                         fontWeight: FontWeight.w700,
@@ -109,23 +107,28 @@ class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
                   child: SizedBox(
                     height: screenHeight,
                     child: ListView.builder(
-                      
                         itemCount: orderProvider.completedOrderList.length,
                         itemBuilder: (context, index) {
-                          log(orderProvider.getCompletedOrderList.length.toString());
+                          log(orderProvider.getCompletedOrderList.length
+                              .toString());
                           return Container(
                             margin: EdgeInsets.only(top: 11),
                             child: PrimaryOrderTrackCard(
-                                trackingID: orderProvider.completedOrderList[index].trackingId,
-                                pickupCity: orderProvider.completedOrderList[index].pickupAdrs,
-                                deliveryCity: orderProvider.completedOrderList[index].deliveryAdrs,
-                                pickupPin: orderProvider.completedOrderList[index].pickupPin,
-                                deliveryPin: orderProvider.completedOrderList[index].deliveryPin),
+                                trackingID: orderProvider
+                                    .completedOrderList[index].trackingId,
+                                pickupCity: orderProvider
+                                    .completedOrderList[index].pickupAdrs,
+                                deliveryCity: orderProvider
+                                    .completedOrderList[index].deliveryAdrs,
+                                pickupPin: orderProvider
+                                    .completedOrderList[index].pickupPin,
+                                deliveryPin: orderProvider
+                                    .completedOrderList[index].deliveryPin),
                           );
                         }),
                   )
 
-                /*Column(
+                  /*Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                      PrimaryOrderTrackCard(
@@ -158,7 +161,7 @@ class _OrderCompletedScreenState extends State<OrderCompletedScreen> {
                         deliveryPin: '560062'),*/ /*
                   ],
                 ),*/
-              ),
+                  ),
             ])
           ],
         ),

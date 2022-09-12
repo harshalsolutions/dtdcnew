@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pick_my_parcel_customer/util/call_us_button.dart';
 import 'package:pick_my_parcel_customer/widgets/confirmation_details.dart';
@@ -16,28 +17,67 @@ class ViewIndividualOrderScreen extends StatefulWidget {
   final String orderValue;
   final String applicableWeight;
   final bool delivered;
-  const ViewIndividualOrderScreen({Key? key, required this.trackingID, required this.pickupCity, required this.deliveryCity, required this.pickupPin, required this.deliveryPin, required this.orderValue, required this.applicableWeight, required this.delivered}) : super(key: key);
+  const ViewIndividualOrderScreen(
+      {Key? key,
+      required this.trackingID,
+      required this.pickupCity,
+      required this.deliveryCity,
+      required this.pickupPin,
+      required this.deliveryPin,
+      required this.orderValue,
+      required this.applicableWeight,
+      required this.delivered})
+      : super(key: key);
 
   @override
   State<ViewIndividualOrderScreen> createState() =>
       _ViewIndividualOrderScreenState();
 }
 
-class _ViewIndividualOrderScreenState
-    extends State<ViewIndividualOrderScreen> {
+class _ViewIndividualOrderScreenState extends State<ViewIndividualOrderScreen> {
+  String? status;
+  String steps = "Accepted";
+  Future<void> getStatus() async {
+    await FirebaseFirestore.instance
+        .collection("Orders")
+        .doc(widget.trackingID)
+        .get()
+        .then((value) {
+      try {
+        setState(() {
+          status = value.data()!["orderStatus"];
+          if (status == "accepted") {
+            steps = "Accepted";
+          } else if (status == "picked") {
+            steps = "Picked Up";
+          } else if (status == "dispatched") {
+            steps = "Dispatched";
+          } else if (status == "complete") {
+            steps = "Delivered";
+          }
+        });
+      } on FirebaseException catch (e) {
+        setState(() {
+          status = 'error';
+        });
+        print(e.message);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:
-      CustomAppBar(
+      appBar: CustomAppBar(
         screenHeight: screenHeight,
         screenWidth: screenWidth,
-        title: 'My Orders',),
+        title: 'My Orders',
+      ),
       bottomNavigationBar:
-      Container(color: primaryColor2, child: const CustomBottomBar()),
+          Container(color: primaryColor2, child: const CustomBottomBar()),
       body: SafeArea(
         child: ListView(
           physics: const ClampingScrollPhysics(),
@@ -72,27 +112,28 @@ class _ViewIndividualOrderScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IndividualOrderCard(
-                          trackingID: widget.trackingID,
-                          pickupCity: widget.pickupCity,
-                          deliveryCity: widget.deliveryCity,
-                          pickupPin: widget.pickupPin,
-                          deliveryPin: widget.deliveryPin,
-                          applicableWeight: widget.applicableWeight,
-                          orderValue: widget.orderValue,
+                        trackingID: widget.trackingID,
+                        pickupCity: widget.pickupCity,
+                        deliveryCity: widget.deliveryCity,
+                        pickupPin: widget.pickupPin,
+                        deliveryPin: widget.deliveryPin,
+                        applicableWeight: widget.applicableWeight,
+                        orderValue: widget.orderValue,
                         delivered: widget.delivered,
                       ),
                       SizedBox(
                         height: screenHeight * 0.0338,
                       ),
                       ConfirmationDetailsCard(
-                          courierName: 'DHL International',
-                          imageAddress: 'images/DHL Icon.png',
-                          deliveryDuration: '6 Days',
-                          charges: '200 Rs.',
-                          packageWeight: widget.applicableWeight,
-                          packageValue: widget.orderValue,
-                          shipmentType: 'Domestic',
-                        delivered: widget.delivered,),
+                        courierName: 'DHL International',
+                        imageAddress: 'images/DHL Icon.png',
+                        deliveryDuration: '6 Days',
+                        charges: '200 Rs.',
+                        packageWeight: widget.applicableWeight,
+                        packageValue: widget.orderValue,
+                        shipmentType: 'Domestic',
+                        delivered: widget.delivered,
+                      ),
                       SizedBox(
                         height: screenHeight * 0.0338,
                       ),
@@ -100,36 +141,35 @@ class _ViewIndividualOrderScreenState
                       SizedBox(
                         height: screenHeight * 0.0338,
                       ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: CircularPercentIndicator(
-                      radius: screenHeight * 0.098,
-                      lineWidth: 12.0,
-                      percent: 0.0,
-                      center: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Status",
-                            style: TextStyle(
-                            fontFamily: 'Archivo',
-                            fontSize: screenHeight * 0.02,
-                            fontWeight: FontWeight.w500
-                          ),),
-                          Text(
-                            widget.delivered == true
-                            ? 'Delivered' : 'Dispatched',
-                            style: TextStyle(
-                                fontFamily: 'Archivo',
-                                fontSize: screenHeight * 0.02,
-                                fontWeight: FontWeight.w700
-                            ),),
-                        ],
-                      ),
-                      progressColor: primaryColor1,
-                      backgroundColor: const Color(0xffE9E9E9),
-                      animation: true,
-                    )
-                  ),
+                      Container(
+                          alignment: Alignment.center,
+                          child: CircularPercentIndicator(
+                            radius: screenHeight * 0.098,
+                            lineWidth: 12.0,
+                            percent: 0.0,
+                            center: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Status",
+                                  style: TextStyle(
+                                      fontFamily: 'Archivo',
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  steps,
+                                  style: TextStyle(
+                                      fontFamily: 'Archivo',
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                            progressColor: primaryColor1,
+                            backgroundColor: const Color(0xffE9E9E9),
+                            animation: true,
+                          )),
                     ],
                   ),
                 )

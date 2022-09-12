@@ -17,21 +17,22 @@ class OrderProvider extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection("Orders")
         .where('uid', isEqualTo: "${FirebaseAuth.instance.currentUser?.uid}")
-        .where("orderStatus", isEqualTo: "accepted")
+        .where("orderStatus", whereIn: ["accepted", 'dispatched', 'picked'])
         .get()
         .then((value) {
-      acceptedOrderList.clear();
-      for (var doc in value.docs) {
-        orderModel = OrderModel.fromMap(doc.data());
-        acceptedOrderList.add(orderModel);
-      }
-      notifyListeners();
-    });
+          acceptedOrderList.clear();
+          for (var doc in value.docs) {
+            orderModel = OrderModel.fromMap(doc.data());
+            acceptedOrderList.add(orderModel);
+          }
+          notifyListeners();
+        });
   }
 
   List<OrderModel> get getAcceptedOrderList {
     return acceptedOrderList;
   }
+
   fetchWaitingOrderList() async {
     FirebaseFirestore.instance
         .collection("Orders")
@@ -111,7 +112,7 @@ class OrderProvider extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection("Orders")
         .where('uid', isEqualTo: "${FirebaseAuth.instance.currentUser?.uid}")
-        .where('orderStatus', isEqualTo: 'completed')
+        .where('orderStatus', isEqualTo: 'complete')
         .get()
         .then((value) {
       completedOrderList.clear();
