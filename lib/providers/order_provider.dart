@@ -25,6 +25,7 @@ class OrderProvider extends ChangeNotifier {
             orderModel = OrderModel.fromMap(doc.data());
             acceptedOrderList.add(orderModel);
           }
+          acceptedOrderList = acceptedOrderList.reversed.toList();
           notifyListeners();
         });
   }
@@ -45,6 +46,7 @@ class OrderProvider extends ChangeNotifier {
         orderModel = OrderModel.fromMap(doc.data());
         waitingOrderList.add(orderModel);
       }
+      waitingOrderList = waitingOrderList.reversed.toList();
       notifyListeners();
     });
   }
@@ -121,6 +123,7 @@ class OrderProvider extends ChangeNotifier {
         log(orderModel.deliveryAdrs);
         completedOrderList.add(orderModel);
       }
+      completedOrderList = completedOrderList.reversed.toList();
       notifyListeners();
     });
   }
